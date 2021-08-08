@@ -2,7 +2,6 @@ package common
 
 import (
 	"bytes"
-	"ehang.io/nps/lib/version"
 	"encoding/base64"
 	"encoding/binary"
 	"errors"
@@ -17,6 +16,8 @@ import (
 	"strconv"
 	"strings"
 	"sync"
+
+	"ehang.io/nps/lib/version"
 
 	"ehang.io/nps/lib/crypt"
 )
@@ -464,6 +465,7 @@ func GetServerIpByClientIp(clientIp net.IP) string {
 	return ip
 }
 
+//打印版本号
 func PrintVersion() {
 	fmt.Printf("Version: %s\nCore version: %s\nSame core version of client and server can connect each other\n", version.VERSION, version.GetVersion())
 }

@@ -1,13 +1,14 @@
 package client
 
 import (
-	"ehang.io/nps-mux"
 	"errors"
 	"net"
 	"net/http"
 	"runtime"
 	"sync"
 	"time"
+
+	nps_mux "ehang.io/nps-mux"
 
 	"ehang.io/nps/lib/common"
 	"ehang.io/nps/lib/config"
@@ -139,7 +140,7 @@ func handleUdpMonitor(config *config.CommonConfig, l *config.LocalServer) {
 					return
 				}
 				for i := 0; i < 10; i++ {
-					logs.Notice("try to connect to the server", i+1)
+					logs.Notice("尝试连接到服务", i+1)
 					newUdpConn(tmpConn.LocalAddr().String(), config, l)
 					if udpConn != nil {
 						udpConnStatus = true

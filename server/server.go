@@ -1,7 +1,6 @@
 package server
 
 import (
-	"ehang.io/nps/lib/version"
 	"errors"
 	"math"
 	"os"
@@ -9,6 +8,8 @@ import (
 	"strings"
 	"sync"
 	"time"
+
+	"ehang.io/nps/lib/version"
 
 	"ehang.io/nps/bridge"
 	"ehang.io/nps/lib/common"
@@ -84,7 +85,7 @@ func DealBridgeTask() {
 	}
 }
 
-//start a new server
+//开始一个新的服务
 func StartNewServer(bridgePort int, cnf *file.Tunnel, bridgeType string, bridgeDisconnect int) {
 	Bridge = bridge.NewTunnel(bridgePort, bridgeType, common.GetBoolByStr(beego.AppConfig.String("ip_limit")), RunList, bridgeDisconnect)
 	go func() {
@@ -164,9 +165,9 @@ func StopServer(id int) error {
 			if err := svr.Close(); err != nil {
 				return err
 			}
-			logs.Info("stop server id %d", id)
+			logs.Info("停止服务 Id [%d]", id)
 		} else {
-			logs.Warn("stop server id %d error", id)
+			logs.Warn("停止服务 Id [%d] ,出错！", id)
 		}
 		if t, err := file.GetDb().GetTask(id); err != nil {
 			return err
@@ -184,25 +185,25 @@ func StopServer(id int) error {
 //add task
 func AddTask(t *file.Tunnel) error {
 	if t.Mode == "secret" || t.Mode == "p2p" {
-		logs.Info("secret task %s start ", t.Remark)
+		logs.Info("私密代理 [%s] 已开启 ", t.Remark)
 		//RunList[t.Id] = nil
 		RunList.Store(t.Id, nil)
 		return nil
 	}
 	if b := tool.TestServerPort(t.Port, t.Mode); !b && t.Mode != "httpHostServer" {
-		logs.Error("taskId %d start error port %d open failed", t.Id, t.Port)
+		logs.Error("私密代理Id [%d] 开启错误,端口 [%d] 打开出错", t.Id, t.Port)
 		return errors.New("the port open error")
 	}
 	if minute, err := beego.AppConfig.Int("flow_store_interval"); err == nil && minute > 0 {
 		go flowSession(time.Minute * time.Duration(minute))
 	}
 	if svr := NewMode(Bridge, t); svr != nil {
-		logs.Info("tunnel task %s start mode：%s port %d", t.Remark, t.Mode, t.Port)
+		logs.Info("建立隧道 [%s] 启动模式 [%s] 端口 [%d]", t.Remark, t.Mode, t.Port)
 		//RunList[t.Id] = svr
 		RunList.Store(t.Id, svr)
 		go func() {
 			if err := svr.Start(); err != nil {
-				logs.Error("clientId %d taskId %d start error %s", t.Client.Id, t.Id, err)
+				logs.Error("客户端Id [%d] 任务Id [%d] 开启错误 [%s]", t.Client.Id, t.Id, err)
 				//delete(RunList, t.Id)
 				RunList.Delete(t.Id)
 				return

@@ -36,7 +36,7 @@ func GetAppPath() string {
 	return os.Args[0]
 }
 
-//Determine whether the current system is a Windows system?
+//确定当前系统是否为Windows系统？
 func IsWindows() bool {
 	if runtime.GOOS == "windows" {
 		return true
@@ -55,7 +55,7 @@ func GetLogPath() string {
 	return path
 }
 
-//interface npc log file path
+//接口日志文件路径
 func GetNpcLogPath() string {
 	var path string
 	if IsWindows() {
@@ -77,7 +77,7 @@ func GetTmpPath() string {
 	return path
 }
 
-//config file path
+//windows服务运行时读取目录下conf/npc.conf
 func GetConfigPath() string {
 	var path string
 	if IsWindows() {

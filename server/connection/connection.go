@@ -33,7 +33,7 @@ func InitConnectionService() {
 }
 
 func GetBridgeListener(tp string) (net.Listener, error) {
-	logs.Info("server start, the bridge type is %s, the bridge port is %s", tp, bridgePort)
+	logs.Info("服务已开启,bridge类型为%s,bridge端口是%s", tp, bridgePort)
 	var p int
 	var err error
 	if p, err = strconv.Atoi(bridgePort); err != nil {
@@ -47,28 +47,28 @@ func GetBridgeListener(tp string) (net.Listener, error) {
 
 func GetHttpListener() (net.Listener, error) {
 	if pMux != nil && httpPort == bridgePort {
-		logs.Info("start http listener, port is", bridgePort)
+		logs.Info("https代理已开启,端口", bridgePort)
 		return pMux.GetHttpListener(), nil
 	}
-	logs.Info("start http listener, port is", httpPort)
+	logs.Info("http代理已开启,端口", httpPort)
 	return getTcpListener(beego.AppConfig.String("http_proxy_ip"), httpPort)
 }
 
 func GetHttpsListener() (net.Listener, error) {
 	if pMux != nil && httpsPort == bridgePort {
-		logs.Info("start https listener, port is", bridgePort)
+		logs.Info("https代理已开启,端口", bridgePort)
 		return pMux.GetHttpsListener(), nil
 	}
-	logs.Info("start https listener, port is", httpsPort)
+	logs.Info("https代理已开启,端口", httpsPort)
 	return getTcpListener(beego.AppConfig.String("http_proxy_ip"), httpsPort)
 }
 
 func GetWebManagerListener() (net.Listener, error) {
 	if pMux != nil && webPort == bridgePort {
-		logs.Info("Web management start, access port is", bridgePort)
+		logs.Info("Web管理已开启,端口", bridgePort)
 		return pMux.GetManagerListener(), nil
 	}
-	logs.Info("web management start, access port is", webPort)
+	logs.Info("Web管理已开启,端口", webPort)
 	return getTcpListener(beego.AppConfig.String("web_ip"), webPort)
 }
 

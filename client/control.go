@@ -91,15 +91,15 @@ func StartFromFile(path string) {
 	first := true
 	cnf, err := config.NewConfig(path)
 	if err != nil || cnf.CommonConfig == nil {
-		logs.Error("Config file %s loading error %s", path, err.Error())
+		logs.Error("配置文件 %s 加载错误 [%s]", path, err.Error())
 		os.Exit(0)
 	}
-	logs.Info("Loading configuration file %s successfully", path)
+	logs.Info("配置文件 %s 加载成功", path)
 
 re:
 	if first || cnf.CommonConfig.AutoReconnection {
 		if !first {
-			logs.Info("Reconnecting...")
+			logs.Info("重新连接...")
 			time.Sleep(time.Second * 5)
 		}
 	} else {
@@ -180,7 +180,7 @@ re:
 	goto re
 }
 
-// Create a new connection with the server and verify it
+// 创建与服务器的新连接并进行验证
 func NewConn(tp string, vkey string, server string, connType string, proxyUrl string) (*conn.Conn, error) {
 	var err error
 	var connection net.Conn

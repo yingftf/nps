@@ -199,7 +199,7 @@ func run() {
 		logs.Error("Getting bridge_port error", err)
 		os.Exit(0)
 	}
-	logs.Info("the version of server is %s ,allow client core version to be %s", version.VERSION, version.GetVersion())
+	logs.Info("服务器的版本为%s ,允许连接客户端核心版本%s", version.VERSION, version.GetVersion())
 	connection.InitConnectionService()
 	//crypt.InitTls(filepath.Join(common.GetRunPath(), "conf", "server.pem"), filepath.Join(common.GetRunPath(), "conf", "server.key"))
 	crypt.InitTls()

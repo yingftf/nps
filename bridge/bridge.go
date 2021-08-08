@@ -1,7 +1,6 @@
 package bridge
 
 import (
-	"ehang.io/nps-mux"
 	"encoding/binary"
 	"errors"
 	"fmt"
@@ -11,6 +10,8 @@ import (
 	"strings"
 	"sync"
 	"time"
+
+	nps_mux "ehang.io/nps-mux"
 
 	"ehang.io/nps/lib/common"
 	"ehang.io/nps/lib/conn"
@@ -248,7 +249,7 @@ func (s *Bridge) typeDeal(typeVal string, c *conn.Conn, id int, vs string) {
 			v.(*Client).Version = vs
 		}
 		go s.GetHealthFromClient(id, c)
-		logs.Info("clientId %d connection succeeded, address:%s ", id, c.Conn.RemoteAddr())
+		logs.Info("客户端Id %d 连接成功, 地址:%s ", id, c.Conn.RemoteAddr())
 	case common.WORK_CHAN:
 		muxConn := nps_mux.NewMux(c.Conn, s.tunnelType, s.disconnectTime)
 		if v, ok := s.Client.LoadOrStore(id, NewClient(muxConn, nil, nil, vs)); ok {
